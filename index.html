@@ -1,1 +1,457 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دعوة تخرج - الدكتور عباس الموسوي</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- خطوط جوجل: Amiri (رسمي وفخم), Cairo (للتفاصيل) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        /* ألوان برونزية/ذهبية مطابقة لصورة الرخام التي أرسلتها */
+                        bronze: {
+                            light: '#E0C398',
+                            main: '#B88645', 
+                            dark: '#6A4A25',
+                        },
+                        black: {
+                            marble: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        amiri: ['Amiri', 'serif'],
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fadeIn': 'fadeIn 1.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* استدعاء صورتك كخلفية ثابتة وتعتيمها قليلاً لتبرز النصوص */
+        body {
+            background-color: #050505;
+            color: #E0C398;
+            overflow-x: hidden;
+            /* استدعاء صورتك bas.PNG هنا */
+            background-image: linear-gradient(rgba(5, 5, 5, 0.65), rgba(5, 5, 5, 0.85)), url('bas.PNG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        #particles-js {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+        }
+
+        .bronze-text-gradient {
+            background: linear-gradient(to right, #E0C398, #FFF5E1, #B88645, #E0C398);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 4px 15px rgba(184, 134, 69, 0.3);
+        }
+
+        .luxury-panel {
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(184, 134, 69, 0.2);
+            border-top: 1px solid rgba(184, 134, 69, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ----- حركة ظهور الاسم من العدم ----- */
+        .name-fade-in {
+            opacity: 0;
+        }
+        .name-fade-in.active {
+            animation: emergeFromVoid 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes emergeFromVoid {
+            0% { opacity: 0; filter: blur(10px); transform: scale(0.95); }
+            100% { opacity: 1; filter: blur(0); transform: scale(1); }
+        }
+
+        /* ----- الجزيئات الذهبية الصغيرة التي تشع من الاسم ----- */
+        .gold-spark {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #B88645;
+            border-radius: 50%;
+            box-shadow: 0 0 4px #E0C398, 0 0 8px #B88645;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* رسم خط نبض القلب (ECG) */
+        .ecg-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+        .draw-ecg {
+            animation: drawLine 2s ease-out forwards;
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* شاشة البداية (شفافة لتظهر الصورة خلفها) */
+        #splash-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background-color: rgba(5, 5, 5, 0.5); /* زجاجي لتبين الصورة */
+            backdrop-filter: blur(4px); /* تعتيم بسيط للتركيز على النبض */
+            -webkit-backdrop-filter: blur(4px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease, transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .splash-btn {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(184,134,69,0.2), transparent);
+            border: 1px dashed #B88645;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative;
+            box-shadow: 0 0 30px rgba(184,134,69,0.15);
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .splash-btn:hover, .splash-btn:active { background: rgba(184,134,69,0.3); transform: scale(1.05); }
+        .splash-btn::after {
+            content: ''; position: absolute; inset: -15px; border-radius: 50%;
+            border: 1px solid rgba(184,134,69,0.2); animation: spin 10s linear infinite;
+        }
+
+        #flash-white {
+            position: fixed; inset: 0; background: #E0C398; z-index: 10000;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s; mix-blend-mode: overlay;
+        }
+
+        .reveal-item { opacity: 0; }
+    </style>
+</head>
+<body class="font-cairo text-bronze-light antialiased selection:bg-bronze-main selection:text-black">
+
+    <div id="particles-js"></div>
+    <div id="flash-white"></div>
+
+    <!-- ================== شاشة البداية ================== -->
+    <div id="splash-screen">
+        <div class="mb-12 text-center relative z-10">
+            <svg class="w-32 h-24 mx-auto mb-6" viewBox="0 0 200 100">
+                <path class="ecg-line" id="splash-ecg" d="M 0,50 L 40,50 L 50,20 L 60,80 L 75,10 L 90,80 L 100,50 L 120,50 L 130,35 L 140,50 L 200,50" 
+                      fill="none" stroke="#B88645" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      style="filter: drop-shadow(0 0 5px rgba(184,134,69,0.5));" />
+            </svg>
+            <h1 class="font-amiri text-4xl bronze-text-gradient mb-2 tracking-widest font-bold">دعوة تخرج</h1>
+            <p class="font-cairo text-gray-300 text-sm tracking-[0.2em] uppercase">Medical Graduation</p>
+        </div>
+
+        <div class="splash-btn group z-10" onclick="unlockInvitation()">
+            <i class="fa-solid fa-stethoscope text-5xl text-bronze-light group-hover:animate-pulse"></i>
+        </div>
+        <p class="mt-8 font-cairo text-bronze-main text-lg animate-pulse z-10 font-bold">اضغط لبدء النبض</p>
+    </div>
+
+    <!-- ================== محتوى الدعوة ================== -->
+    <main id="main-content" class="max-w-md mx-auto px-4 py-10 hidden flex-col gap-6 pb-24 relative z-10 min-h-screen justify-center">
+        
+        <section class="luxury-panel p-8 rounded-2xl text-center reveal-item mt-4">
+            
+            <!-- 1. السماعة الطبية في الأعلى -->
+            <div class="w-16 h-16 mx-auto border border-bronze-main/30 rounded-full flex items-center justify-center mb-5 bg-black/50 shadow-[0_0_15px_rgba(184,134,69,0.1)]">
+                <i class="fa-solid fa-stethoscope text-3xl text-bronze-main"></i>
+            </div>
+
+            <!-- 2. البسملة -->
+            <p class="font-amiri text-bronze-light/90 text-lg mb-3 font-bold">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+            
+            <!-- 3. الآية -->
+            <p class="font-cairo text-sm text-gray-300 leading-relaxed px-2">
+                "يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ"
+            </p>
+            
+            <!-- 4. صدق الله -->
+            <p class="font-amiri text-bronze-main text-sm font-bold mt-2 mb-6 opacity-90">
+                صَدَقَ اللهُ العَلِيُّ العَظِيمُ
+            </p>
+
+            <!-- فاصل أنيق -->
+            <div class="flex items-center justify-center gap-2 my-8 opacity-60">
+                <div class="h-[1px] bg-gradient-to-r from-transparent to-bronze-main flex-1"></div>
+                <i class="fa-solid fa-diamond text-xs text-bronze-main"></i>
+                <div class="h-[1px] bg-gradient-to-l from-transparent to-bronze-main flex-1"></div>
+            </div>
+
+            <p class="font-cairo text-sm text-gray-300 mb-4">يسعدني ويشرفني دعوتكم لمشاركتي فرحة تخرجي وحصولي على شهادة</p>
+            
+            <!-- 5. الشهادة -->
+            <h2 class="font-amiri text-2xl bronze-text-gradient font-bold mb-1">بكالوريوس طب وجراحة عامة</h2>
+            <p class="font-cairo text-xs text-bronze-main/80 font-bold tracking-widest mb-3">( M.B.Ch.B )</p>
+            
+            <!-- 6. الجامعة -->
+            <h3 class="font-amiri text-lg text-gray-300 mb-10">جامعة وارث الأنبياء</h3>
+
+            <!-- الاسم بسطر واحد بخط أميري، يظهر من العدم، ويطلق شرارات ذهبية -->
+            <div class="my-10 w-full relative flex justify-center items-center h-16">
+                <!-- استخدام whitespace-nowrap لمنع نزول الكلمة لسطر ثاني -->
+                <h1 id="grad-name" class="font-amiri text-2xl md:text-3xl bronze-text-gradient font-bold leading-tight whitespace-nowrap name-fade-in relative inline-block">
+                    الدكتور عباس مالك الموسوي
+                </h1>
+            </div>
+
+            <!-- تفاصيل الحفلة -->
+            <div class="bg-black/60 border border-bronze-main/20 rounded-xl p-5 mt-10 relative overflow-hidden backdrop-blur-sm">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-bronze-main to-transparent opacity-30"></div>
+                
+                <h3 class="font-amiri text-xl text-bronze-light mb-5"><i class="fa-solid fa-graduation-cap mr-2"></i> تفاصيل الحفل</h3>
+                
+                <div class="flex flex-col gap-5 text-right">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-bronze-main/10 flex items-center justify-center flex-shrink-0 text-bronze-main border border-bronze-main/20">
+                            <i class="fa-regular fa-calendar text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-cairo">التاريخ</p>
+                            <p class="font-bold text-bronze-light text-sm md:text-base font-cairo">يوم الثلاثاء، 19 شباط 2030</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-bronze-main/10 flex items-center justify-center flex-shrink-0 text-bronze-main border border-bronze-main/20">
+                            <i class="fa-regular fa-clock text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-cairo">الوقت</p>
+                            <p class="font-bold text-bronze-light text-sm md:text-base font-cairo">الساعة 9:00 صباحاً</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-bronze-main/10 flex items-center justify-center flex-shrink-0 text-bronze-main border border-bronze-main/20">
+                            <i class="fa-solid fa-building-columns text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-cairo">المكان</p>
+                            <p class="font-bold text-bronze-light text-sm md:text-base font-cairo">جامعة وارث الأنبياء - بناية العُلا</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- عداد التخرج -->
+        <section class="luxury-panel rounded-2xl p-6 text-center reveal-item border border-bronze-main/20">
+            <h2 class="font-amiri text-xl text-bronze-main mb-6 font-bold">العد التنازلي ليوم الحصاد</h2>
+            
+            <div class="flex justify-center gap-2 md:gap-4" dir="ltr">
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-16 bg-black/50 border border-bronze-main/30 rounded-lg flex items-center justify-center shadow-inner relative">
+                        <span id="days" class="text-2xl font-bold bronze-text-gradient font-cairo z-10">00</span>
+                    </div>
+                    <span class="text-[10px] text-gray-400 mt-2 font-cairo">يوم</span>
+                </div>
+                <span class="text-bronze-main text-2xl mt-4 font-bold animate-pulse">:</span>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-16 bg-black/50 border border-bronze-main/30 rounded-lg flex items-center justify-center shadow-inner relative">
+                        <span id="hours" class="text-2xl font-bold bronze-text-gradient font-cairo z-10">00</span>
+                    </div>
+                    <span class="text-[10px] text-gray-400 mt-2 font-cairo">ساعة</span>
+                </div>
+                <span class="text-bronze-main text-2xl mt-4 font-bold animate-pulse">:</span>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-16 bg-black/50 border border-bronze-main/30 rounded-lg flex items-center justify-center shadow-inner relative">
+                        <span id="minutes" class="text-2xl font-bold bronze-text-gradient font-cairo z-10">00</span>
+                    </div>
+                    <span class="text-[10px] text-gray-400 mt-2 font-cairo">دقيقة</span>
+                </div>
+                <span class="text-bronze-main text-2xl mt-4 font-bold animate-pulse">:</span>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-16 bg-black/50 border border-bronze-main/30 rounded-lg flex items-center justify-center shadow-inner relative">
+                        <span id="seconds" class="text-2xl font-bold text-white font-cairo z-10">00</span>
+                    </div>
+                    <span class="text-[10px] text-gray-400 mt-2 font-cairo">ثانية</span>
+                </div>
+            </div>
+        </section>
+
+        <p class="text-center text-gray-400 font-amiri text-lg mt-2 mb-8 reveal-item">
+            حضوركم تشريف لي وتتويج لسنوات جهدي.
+        </p>
+    </main>
+
+    <!-- ملفات الصوت المخفية -->
+    <audio id="bg-audio" loop preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="heartbeat-audio" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // إعداد الجزيئات في الخلفية
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 30 },
+                "color": { "value": "#B88645" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 0.8, "direction": "top", "out_mode": "out" }
+            }
+        });
+
+        // دالة إطلاق الشرارات الذهبية من جانبي الاسم
+        function startNameParticles() {
+            const nameContainer = document.getElementById('grad-name');
+            if(!nameContainer) return;
+
+            // إطلاق شرارة كل 150 جزء من الثانية
+            setInterval(() => {
+                const spark = document.createElement('div');
+                spark.className = 'gold-spark';
+                
+                // اختيار عشوائي: يمين أم يسار؟
+                const isLeft = Math.random() > 0.5;
+                spark.style.left = isLeft ? '-15px' : 'calc(100% + 15px)';
+                
+                // توزيع عشوائي للارتفاع
+                spark.style.top = (20 + Math.random() * 60) + '%';
+                
+                nameContainer.appendChild(spark);
+                
+                const direction = isLeft ? -1 : 1;
+                const distanceX = 15 + Math.random() * 30;
+                const distanceY = 10 + Math.random() * 25;
+                
+                const animation = spark.animate([
+                    { transform: `translate(0, 0) scale(1.2)`, opacity: 1 },
+                    { transform: `translate(${direction * distanceX}px, -${distanceY}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'ease-out'
+                });
+                
+                animation.onfinish = () => spark.remove();
+            }, 150);
+        }
+
+        let isUnlocked = false;
+
+        function unlockInvitation() {
+            if(isUnlocked) return;
+            isUnlocked = true;
+
+            const splash = document.getElementById('splash-screen');
+            const ecg = document.getElementById('splash-ecg');
+            const flash = document.getElementById('flash-white');
+            const mainContent = document.getElementById('main-content');
+            
+            const music = document.getElementById('bg-audio');
+            const heartbeat = document.getElementById('heartbeat-audio');
+
+            // تشغيل النبض ورسم الخط
+            let hbPromise = heartbeat.play();
+            if (hbPromise !== undefined) hbPromise.catch(e => console.log(e));
+            
+            ecg.classList.add('draw-ecg');
+
+            setTimeout(() => {
+                flash.style.opacity = '0.9';
+                
+                // تشغيل الأغنية إجبارياً
+                let playPromise = music.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        document.body.addEventListener('touchstart', function() { music.play(); }, { once: true });
+                        document.body.addEventListener('click', function() { music.play(); }, { once: true });
+                        document.body.addEventListener('scroll', function() { music.play(); }, { once: true });
+                    });
+                }
+
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none';
+                    
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        flash.style.opacity = '0';
+                        mainContent.style.display = 'flex';
+                        
+                        // إظهار عناصر البطاقة بالتدريج
+                        const items = document.querySelectorAll('.reveal-item');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('animate-fadeIn');
+                            }, index * 250);
+                        });
+
+                        // بدء حركة ظهور الاسم من العدم بعد البطاقة
+                        setTimeout(() => {
+                            const gradName = document.getElementById('grad-name');
+                            gradName.classList.add('active');
+                            
+                            // بعد ثبات الاسم (2.5 ثانية) تبدأ الجزيئات
+                            setTimeout(() => {
+                                startNameParticles();
+                            }, 2500);
+
+                        }, 1200);
+
+                    }, 500);
+                }, 200);
+            }, 1800);
+        }
+
+        // إعداد العد التنازلي
+        const targetDate = new Date('February 19, 2030 09:00:00').getTime();
+        
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).innerText = '00');
+                return;
+            }
+
+            document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
